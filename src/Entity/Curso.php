@@ -6,6 +6,7 @@ use App\Repository\CursoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CursoRepository::class)]
 class Curso
@@ -30,6 +31,7 @@ class Curso
      * @var Collection<int, Asignatura>
      */
     #[ORM\ManyToMany(targetEntity: Asignatura::class, mappedBy: 'id_curso')]
+    #[Groups(['curso:read', 'curso:write'])]
     private Collection $asignaturas;
 
     public function __construct(?string $nombre = null, ?string $descripcion = null)
