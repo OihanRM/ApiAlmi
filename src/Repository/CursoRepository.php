@@ -15,12 +15,12 @@ class CursoRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Curso::class);
     }
-    public function add(Curso $curso) :void
+    public function addCurso(Curso $curso) :void
     {
         $this-> getEntityManager()->persist($curso);
         $this-> getEntityManager()->flush();
     }
-    public function delete(Curso $curso) :void
+    public function deleteCurso(Curso $curso) :void
     {
         $this-> getEntityManager()->remove($curso);
         $this-> getEntityManager()->flush();

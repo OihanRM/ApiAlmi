@@ -27,8 +27,10 @@ class Curso
     #[ORM\ManyToMany(targetEntity: Asignatura::class, mappedBy: 'id_curso')]
     private Collection $asignaturas;
 
-    public function __construct()
+    public function __construct(?string $nombre = null, ?string $descripcion = null)
     {
+        $this->nombre = $nombre;
+        $this->descripcion = $descripcion;
         $this->asignaturas = new ArrayCollection();
     }
 

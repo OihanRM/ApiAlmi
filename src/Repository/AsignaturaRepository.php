@@ -15,6 +15,16 @@ class AsignaturaRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Asignatura::class);
     }
+    public function addAsignatura(Asignatura $asignatura) :void
+    {
+        $this-> getEntityManager()->persist($asignatura);
+        $this-> getEntityManager()->flush();
+    }
+    public function deleteCurso(Asignatura $asignatura) :void
+    {
+        $this-> getEntityManager()->remove($asignatura);
+        $this-> getEntityManager()->flush();
+    }
 
     //    /**
     //     * @return Asignatura[] Returns an array of Asignatura objects

@@ -33,10 +33,15 @@ class Asignatura
     #[ORM\ManyToMany(targetEntity: Curso::class, inversedBy: 'asignaturas')]
     private Collection $id_curso;
 
-    public function __construct()
+    public function __construct(?string $nombre = null, ?string $descripcion = null, ?int $horas = null, ?string $profesor = null)
     {
+        $this->nombre = $nombre;
+        $this->descripcion = $descripcion;
+        $this->horas = $horas;
+        $this->profesor = $profesor;
         $this->id_curso = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
