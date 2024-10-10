@@ -20,7 +20,7 @@ class AsignaturaRepository extends ServiceEntityRepository
         $this-> getEntityManager()->persist($asignatura);
         $this-> getEntityManager()->flush();
     }
-    public function deleteCurso(Asignatura $asignatura) :void
+    public function deleteAsignatura(Asignatura $asignatura) :void
     {
         $this-> getEntityManager()->remove($asignatura);
         $this-> getEntityManager()->flush();

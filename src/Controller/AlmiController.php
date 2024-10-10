@@ -95,7 +95,11 @@ class AlmiController extends AbstractController
         return new JsonResponse(['status' => 'Asignatura created!'." ".$data['nombre']], Response::HTTP_CREATED);
         
     }
-    
+    #[Route('/ws/almi/asignaturas', name: 'app_asignaturas', methods: ['GET'])]
+    public function getAsignaturas(AsignaturaRepository $asignaturaRepository): Response
+    {
+        return $this->convertToJson($asignaturaRepository->findAll());
+    }
 
     #[Route('/ws/almi/asignatura/{id}', name: 'app_asignatura_id', methods: ['GET'])]
     public function showasignatura(AsignaturaRepository $asignaturaRepository, $id): Response
