@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repository\CursoRepository;
@@ -43,9 +44,12 @@ class AlmiController extends AbstractController
     }
 
     #[Route('/ws/almi/cursos', name: 'app_cursos', methods: ['GET'])]
-    public function getCursos(CursoRepository $cursoRepository): Response
+    public function getCursos(CursoRepository $cursoRepository, SerializerInterface $serializer): Response
     {
-        return $this->convertToJson($cursoRepository->findAll());
+        $cursos = $cursoRepository->findAll();
+        $data = $serializer->serialize($cursos, 'json', ['groups' => ['curso:read', 'asignatura:read']]);
+        return new JsonResponse($data, 200, [], true);
+        //return $this->convertToJson($cursoRepository->findAll());
     }
 
     #[Route('/ws/almi/curso/{id}', name: 'app_curso_id', methods: ['GET'])]
@@ -194,6 +198,23 @@ class AlmiController extends AbstractController
         $cursoRepository->addCurso($curso); 
         return new JsonResponse(['status' => 'Asignatura asignada al curso!'], Response::HTTP_OK);
     }
+
+    #[Route('/ws/almi/asignatura/remove/{curso_id}/{asignatura_id}', name: 'app_asignatura_remove', methods:['POST'])]
+    public function removeAsignaturaFromCurso(AsignaturaRepository $asignaturaRepository, CursoRepository $cursoRepository, int $curso_id, int $asignatura_id): JsonResponse
+    {
+        $curso = $cursoRepository->find($curso_id);
+        if ($curso === null) {
+            return new JsonResponse(['status' => 'Curso no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+        $asignatura = $asignaturaRepository->find($asignatura_id);
+        if ($asignatura === null) {
+            return new JsonResponse(['status' => 'Asignatura no encontrada'], Response::HTTP_NOT_FOUND);
+        }
+        $curso->removeAsignatura($asignatura);
+        $cursoRepository->addCurso($curso); 
+        return new JsonResponse(['status' => 'Asignatura desasignada del curso!'], Response::HTTP_OK);
+    }
+
 
 
 

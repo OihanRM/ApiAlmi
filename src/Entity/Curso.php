@@ -13,13 +13,18 @@ class Curso
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['curso:read', 'curso:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['curso:read', 'curso:write'])]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['curso:read', 'curso:write'])]
     private ?string $descripcion = null;
+
+
 
     /**
      * @var Collection<int, Asignatura>
