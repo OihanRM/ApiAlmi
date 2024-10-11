@@ -14,15 +14,15 @@ class Curso
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['curso:read', 'curso:write'])]
+    #[Groups(['curso:read', 'curso:write', 'curso:test'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['curso:read', 'curso:write'])]
+    #[Groups(['curso:read', 'curso:write',  'curso:test'])]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['curso:read', 'curso:write'])]
+    #[Groups(['curso:read', 'curso:write', 'curso:test'])]
     private ?string $descripcion = null;
 
 
@@ -31,7 +31,7 @@ class Curso
      * @var Collection<int, Asignatura>
      */
     #[ORM\ManyToMany(targetEntity: Asignatura::class, mappedBy: 'id_curso')]
-    #[Groups(['curso:read', 'curso:write'])]
+    #[Groups(['curso:read', 'curso:write',  'curso:test'])]
     private Collection $asignaturas;
 
     public function __construct(?string $nombre = null, ?string $descripcion = null)

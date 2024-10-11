@@ -43,19 +43,23 @@ class AlmiController extends AbstractController
         return new JsonResponse(['status' => 'Curso created!'.$data['nombre']], Response::HTTP_CREATED);
     }
 
+
     #[Route('/ws/almi/cursos', name: 'app_cursos', methods: ['GET'])]
     public function getCursos(CursoRepository $cursoRepository, SerializerInterface $serializer): Response
     {
         $cursos = $cursoRepository->findAll();
-        $data = $serializer->serialize($cursos, 'json', ['groups' => ['curso:read', 'asignatura:read']]);
+        $data = $serializer->serialize($cursos, 'json', ['groups' => ['curso:test', 'asignatura:test']]);
         return new JsonResponse($data, 200, [], true);
         //return $this->convertToJson($cursoRepository->findAll());
     }
 
     #[Route('/ws/almi/curso/{id}', name: 'app_curso_id', methods: ['GET'])]
-    public function show(CursoRepository $cursoRepository, $id): Response
+    public function show(CursoRepository $cursoRepository, SerializerInterface $serializer, $id): Response
     {
-        return $this->convertToJson($cursoRepository->find($id));
+        $curso = $cursoRepository->find($id);
+        $data = $serializer->serialize($curso, 'json', ['groups' => ['curso:read', 'asignatura:read']]);
+        return new JsonResponse($data, 200, [], true);
+        //return $this->convertToJson($cursoRepository->find($id));
     }
 
     #[Route('/ws/cursos/update/{id}' , name: 'cursos_update', methods: ['PUT'])]
@@ -97,7 +101,6 @@ class AlmiController extends AbstractController
         $asignatura = new Asignatura($data['nombre'], $data['descripcion'], $data['horas'], $data['profesor']);
         $asignaturaRepository->addAsignatura($asignatura, true);
         return new JsonResponse(['status' => 'Asignatura created!'." ".$data['nombre']], Response::HTTP_CREATED);
-        
     }
     #[Route('/ws/almi/asignaturas', name: 'app_asignaturas', methods: ['GET'])]
     public function getAsignaturas(AsignaturaRepository $asignaturaRepository): Response

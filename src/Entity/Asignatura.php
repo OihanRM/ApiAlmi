@@ -14,23 +14,23 @@ class Asignatura
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['asignatura:read', 'asignatura:write'])]
+    #[Groups(['asignatura:read', 'asignatura:write', 'curso:test'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['asignatura:read', 'asignatura:write'])]
+    #[Groups(['asignatura:read', 'asignatura:write', 'curso:test'])]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['asignatura:read', 'asignatura:write'])]
+    #[Groups(['asignatura:read', 'asignatura:write', 'curso:test'])]
     private ?string $descripcion = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['asignatura:read', 'asignatura:write'])]
+    #[Groups(['asignatura:read', 'asignatura:write', 'curso:test'])]
     private ?int $horas = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['asignatura:read', 'asignatura:write'])]
+    #[Groups(['asignatura:read', 'asignatura:write', 'curso:test'])]
     private ?string $profesor = null;
 
     /**
